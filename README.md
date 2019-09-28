@@ -11,7 +11,8 @@ From caringforaparent-blah=fumanchu.com@carpar.monster  Fri Sep 27 23:06:28 2019
 
 The spamip service ingests spamassassin-format logs, e.g. /var/log/spamassassin/spamd.log
 ```
-Fri Sep 27 23:06:24 2019 [7294] info: spamd: result: Y 19 - DCC_CHECK,DIGEST_MULTIPLE,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HTML_MESSAGE,LOCAL_FROM_TLD,PYZOR_CHECK,RCVD_IN_PSBL,SPF_HELO_NONE,SPF_PASS,URIBL_BLACK,URIBL_DBL_SPAM scantime=2.5,size=6154,user=spamd,uid=1013,required_score=5.0,rhost=::1,raddr=::1,rport=54522,mid=<0.0.0.B9.1D575C1C270D7AA.914D10@mail.carpar.monster>,autolearn=disabled```
+Fri Sep 27 23:06:24 2019 [7294] info: spamd: result: Y 19 - DCC_CHECK,DIGEST_MULTIPLE,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HTML_MESSAGE,LOCAL_FROM_TLD,PYZOR_CHECK,RCVD_IN_PSBL,SPF_HELO_NONE,SPF_PASS,URIBL_BLACK,URIBL_DBL_SPAM scantime=2.5,size=6154,user=spamd,uid=1013,required_score=5.0,rhost=::1,raddr=::1,rport=54522,mid=<0.0.0.B9.1D575C1C270D7AA.914D10@mail.carpar.monster>,autolearn=disabled
+```
 
 When SA logs a spam, spamip examines the mail log, e.g. /var/log/mail.log and find the IP address which delivered the message.
 
