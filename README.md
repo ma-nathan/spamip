@@ -38,3 +38,9 @@ Finally, fail2ban applies its iptables-based IP ban rule.
 2019-09-27 23:16:07,968 fail2ban.filter         [5472]: INFO    [spamip] Found 194.5.94.216 - 2019-09-27 23:06:24
 2019-09-27 23:16:08,326 fail2ban.actions        [5472]: NOTICE  [spamip] Ban 194.5.94.216
 ```
+
+spamip feeds spamassassin detection back into the fail2ban config so you can automatically close the door to repeat attempts.
+
+Legitimate emails from a host that has been falsely accused of spamming will resume after fail2ban's ban period ends.  I set the ban period at a day for this rare occasion.
+
+
