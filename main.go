@@ -7,6 +7,7 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -160,13 +161,13 @@ func look_up_in_mail_log(message Message) (ip string, err error) {
 		return ip, err
 	}
 
-	err = nil
+	err = errors.New("Not found in mail log: " + message.MessageID)
 	return ip, err
 }
 
 func main() {
 
-	re_is_spam, err := regexp.Compile("... ... .. ..:..:.. .... \\[(\\d+)\\].*info: spamd: result: Y .*,mid=<(.*)>,")
+	re_is_spam, err := regexp.Compile("(... ... .. ..:..:.. ....) \\[(\\d+)\\].*info: spamd: result: Y .*,mid=<(.*)>,")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -186,19 +187,30 @@ func main() {
 
 			var message Message
 
-			message.Pid, _ = strconv.Atoi(re_spam[1])
-			message.MessageID = re_spam[2]
+			message.Pid, _ = strconv.Atoi(re_spam[2])
+			message.MessageID = re_spam[3]
+			message.DateStr = re_spam[1]
 
-			message.Spam = true
-			message.Processed = time.Now()
+			if too_old_or_broken(message) == false {
 
-			// Now look up the IP in the mail log and associate it if we can find it
+				message.Spam = true
+				message.Processed = time.Now()
 
-			message.Ip, err = look_up_in_mail_log(message)
+				// Now look up the IP in the mail log and associate it if we can find it
 
-			if err == nil {
+				var lookup_err error
+				message.Ip, lookup_err = look_up_in_mail_log(message)
 
-				fmt.Printf("SPAM %s with message ID %s\n", message.Ip, message.MessageID)
+				if lookup_err == nil {
+
+					fmt.Printf("SPAM %s with message ID %s\n", message.Ip, message.MessageID)
+				} else {
+
+					fmt.Printf("Error: %s\n", lookup_err)
+				}
+			} else {
+
+				fmt.Printf("Old/broken %s\n", message.MessageID)
 			}
 
 		} else {
