@@ -203,7 +203,7 @@ func main() {
 
 				if lookup_err == nil {
 
-					fmt.Printf("SPAM %s with message ID %s\n", message.Ip, message.MessageID)
+					fmt.Printf("%s SPAM %s with message ID %s\n", message.DateStr, message.Ip, message.MessageID)
 				} else {
 
 					fmt.Printf("Error: %s\n", lookup_err)
