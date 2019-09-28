@@ -35,7 +35,6 @@ Fri Sep 27 23:06:28 2019 SPAM 194.5.94.216 with message ID 0.0.0.3A.1D575C0D30EC
 Finally, fail2ban applies its iptables-based IP ban rule.
 
 ```
-2019-09-27 23:16:07,968 fail2ban.filter         [5472]: INFO    [spamip] Found 194.5.94.216 - 2019-
-09-27 23:06:24
+2019-09-27 23:16:07,968 fail2ban.filter         [5472]: INFO    [spamip] Found 194.5.94.216 - 2019-09-27 23:06:24
 2019-09-27 23:16:08,326 fail2ban.actions        [5472]: NOTICE  [spamip] Ban 194.5.94.216
 ```
