@@ -57,6 +57,9 @@ func too_old_or_broken(message Message) bool {
 	return true
 }
 
+// Bug:  we can't find a message-id:  4641729uyf2v$cbr5u8aq$q4bnkh77$@emfex.com
+// Fix:  try regexp.QuoteMeta( message-id )
+
 func find_in_cache(message Message, cache *[MAIL_LOG_CACHE_LINES]string, start_position int) (found bool, ip string) {
 
 	found = false
@@ -67,7 +70,10 @@ func find_in_cache(message Message, cache *[MAIL_LOG_CACHE_LINES]string, start_p
 		log.Fatal(err)
 	}
 
-	re_id_with_msg_id, err := regexp.Compile(`.*: (.*): message-id=<` + message.MessageID + `>`)
+	re_id_with_msg_id, err := regexp.Compile(`.*: (.*): message-id=<` +
+		regexp.QuoteMeta(message.MessageID) +
+		`>`)
+
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -120,7 +126,7 @@ func find_in_cache(message Message, cache *[MAIL_LOG_CACHE_LINES]string, start_p
 // Sep 27 12:06:55 mail postfix/smtpd[17167]: 78FCF14005A: client=mail-83-49.emnt.net[206.132.183.49]
 // Sep 27 12:06:55 mail postfix/cleanup[17254]: 78FCF14005A: message-id=<4613175474598.t461317.e5474598@edreamingdiscounts.com>
 //
-// The IP will come *before* the message-id, so we keep a cache of the last
+// The IP will come *before* the message-id, so we keep a cache of the last MAIL_LOG_CACHE_LINES
 
 func look_up_in_mail_log(message Message) (ip string, err error) {
 
